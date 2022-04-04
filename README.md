@@ -1,7 +1,7 @@
 UPD (03  april 2022): This version of code allows to reproduce the majority of article results. However, some sections are still under verifications and adjustments (commenting, documenting etc). The final version will be available during next two weeks. 
 
 # Demand Response Coupled with Dynamic Thermal Rating for Increased Transformer Reserve and Lifetime
-<img align="left" alt="Coding" width="270" src="https://www.i3upgrade.eu/files/2021/07/logo-journal-energies.png">
+<img align="left" alt="Coding" width="275" src="https://www.i3upgrade.eu/files/2021/07/logo-journal-energies.png">
 
 This repository shares the MATLAB code and data for the research article :\
 I. Daminov, R. Rigo-Mariani, R. Caire, A. Prokhorov, M-C Alvarez-Herault, [“Demand Response Coupled with Dynamic Thermal Rating for Increased Transformer Reserve and Lifetime”](https://doi.org/10.3390/en14051378) in Energies (IF: 2.702, Q2), 2021
