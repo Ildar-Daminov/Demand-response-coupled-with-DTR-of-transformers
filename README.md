@@ -1,4 +1,4 @@
-UPD (03  april 2022): This version of code allows to reproduce the majority of article results. However, some sections are still under verifications and adjustments (commenting, documenting etc). The final version will be available during next two weeks. 
+UPD (03  april 2022): This version of code allows to reproduce the majority of article results. However, some sections are still under verifications,testing and adjustments (commenting, documenting etc). The final version will be available during next two weeks. 
 
 # Demand Response Coupled with Dynamic Thermal Rating for Increased Transformer Reserve and Lifetime
 <img align="left" alt="Coding" width="275" src="https://www.i3upgrade.eu/files/2021/07/logo-journal-energies.png">
@@ -32,7 +32,7 @@ II. Launching the specific section of the code to reproduce the particular figur
 5. Find the section (Plotting the Figure XX) corresponding to the Figure you would like to reproduce. 
 6. Put the cursor at any place of this section and click on the button "Run Section" (usually located at the top of MATLAB bar)
 
-Attention! Some code uses [fcn2optimexpr](https://fr.mathworks.com/help/optim/ug/fcn2optimexpr.html), which becomes available since the version MATLAB 2019a! For previous MATLAB version fcn2optimexpr, as far as we know, does not work
+Attention! Some code uses [fcn2optimexpr](https://fr.mathworks.com/help/optim/ug/fcn2optimexpr.html), which becomes available since the version MATLAB 2019a! For previous MATLAB version [fcn2optimexpr](https://fr.mathworks.com/help/optim/ug/fcn2optimexpr.html), as far as we know, does not work
 
 
 ## Files description
@@ -40,32 +40,32 @@ Main script:
 * main.m - the principal script which launches all calculations
   
 Additional functions: 
-* computeXBKPbest.m - function used for computing best fitted PWL segments
-* Convert2hours.m
-* Convert2minute.m
-* distribution_transformer.m
-* fmincon_time_test.m
-* minutes_integer2day_index.m
-* minutes2intervals.m
-* profiles2minutes.m
-* validation_run.m
+* computeXBKPbest.m - this function computes the best breakpoints for simple PWL piecewise linearization
+* Convert2hours.m - this function converts from 1-minute resolution to hours resolution
+* Convert2minute.m - this function converts from hours resolution to 1-minute resolution
+* distribution_transformer.m - a thermal model of distribution transformer (up to 2.5 MVA) per the loading guide IEC 60076-7
+* fmincon_time_test.m - this function formulates and then solves a nonlinear optimization problem (using fmincon)
+* minutes_integer2day_index.m - this function converts the interval duration in minutes to corresponding day index 
+* minutes2intervals.m  - this function transforms minutes values (where transformer constraints are violated) to intevals 
+* profiles2minutes.m - this function analyzes the power and temperature profiles and shows minutes and intervals where constraints are violated
+* validation_run.m - this function performs the validation runs (using MILP optimization problem) 
 
 More details are given inside of each functions and script "main.m"
 
 Initial data:
-* Aggregated_load_profile_100_houses.mat
-* all_intervals.mat
-* Ambient_temperature_Grenoble.mat
-* fig_nRMSE.mat
-* initial_data.mat
-* LOADprofile.mat
-* result_AEQ_50_60.mat
-* result_AEQ_100.mat
-* result_PUL_100.mat
-* result_temp_100.mat
-* result98_AEQ_100.mat
-* time_test_result_5.mat
-* time_test_result_linear.mat
+* Aggregated_load_profile_100_houses.mat - the load profile in W of 100 houses 
+* all_intervals.mat - precalulated results 
+* Ambient_temperature_Grenoble.mat - annual ambient temperature in Grenoble, France 
+* fig_nRMSE.mat - precalulated results
+* initial_data.mat - daily profile of transfomer loading and ambient temperature 
+* LOADprofile.mat - transformer load profile 
+* result_AEQ_50_60.mat - precalulated results for energy shifting mode 
+* result_AEQ_100.mat - precalulated results for energy shedding mode (considering all constraints : ageing , current and temperatures 120°C)
+* result_PUL_100.mat - precalulated results for energy shedding mode (considering current and temperature constraints)
+* result_temp_100.mat - precalulated results for energy shedding mode (considering only temperature  constraints)
+* result98_AEQ_100.mat - precalulated results for energy shedding mode (considering ageing and design temperature 98 °C constraints)
+* time_test_result_5.mat - precalulated results of time tests (of solving  the nonlinear problem via fmincon)
+* time_test_result_linear.mat - precalulated results of time tests (of solving the linearized problem via linprog)
 
 ## How to cite this article 
 Ildar Daminov, Rémy Rigo-Mariani, Raphael Caire, Anton Prokhorov, Marie-Cécile Alvarez-Herault, "Demand Response coupled with Dynamic Thermal Rating for increased transformer reserve and lifetime." Energies 14.5 (2021): 1378. https://doi.org/10.3390/en14051378
