@@ -14,21 +14,23 @@ There are two ways how you may run this code:
   
 I. Launching all calculations at once. This will reproduce all figures in the article but it would take 5 minutes:
 1. Copy this repository to your computer
-2. Add YALMIP to Set Path. 
+2. Extract YALMIP.zip to any place you wish. 
+3. Add YALMIP to Set Path. 
    Go to Matlab's Home tab -> Click on "Set Path" -> Click on "Add with Subfolders" and Choose the folder where YALMIP is located -> Click on Select the folder
-3. Open the script main.m
-4. Launch the script "main.m" by clicking on the button "Run" (usually located at the top of MATLAB bar).\
+4. Open the script main.m
+5. Launch the script "main.m" by clicking on the button "Run" (usually located at the top of MATLAB bar).\
 As alternative, you may type ```main``` 
 in Command Window to launch the entire script. 
 
 
 II. Launching the specific section of the code to reproduce the particular figure: 
 1. Copy this repository to your computer 
-2. Add YALMIP to Set Path. 
+2. Extract YALMIP.zip to any place you wish. 
+3. Add YALMIP to Set Path. 
    Go to Matlab's Home tab -> Click on "Set Path" -> Click on "Add with Subfolders" and Choose the folder where YALMIP is located -> Click on Select the folder
-3. Open the script main.m 
-4. Find the section (Plotting the Figure XX) corresponding to the Figure you would like to reproduce. 
-5. Put the cursor at any place of this section and click on the button "Run Section" (usually located at the top of MATLAB bar)
+4. Open the script main.m 
+5. Find the section (Plotting the Figure XX) corresponding to the Figure you would like to reproduce. 
+6. Put the cursor at any place of this section and click on the button "Run Section" (usually located at the top of MATLAB bar)
 
 Attention! Some code uses [fcn2optimexpr](https://fr.mathworks.com/help/optim/ug/fcn2optimexpr.html), which becomes available since the version MATLAB 2019a! For previous MATLAB version fcn2optimexpr, as far as we know, does not work
 
