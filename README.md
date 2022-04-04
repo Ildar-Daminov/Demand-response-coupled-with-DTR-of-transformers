@@ -1,4 +1,4 @@
-UPD (03  april 2022): The code and data for this article will be uploaded within next 7 days
+UPD (03  april 2022): This version of code allows to reproduce the majority of article results. However, some section are still under verifications and adjustments. The final version will be available during next two weeks. 
 
 # Demand Response Coupled with Dynamic Thermal Rating for Increased Transformer Reserve and Lifetime
 <img align="left" alt="Coding" width="250" src="https://www.i3upgrade.eu/files/2021/07/logo-journal-energies.png">
