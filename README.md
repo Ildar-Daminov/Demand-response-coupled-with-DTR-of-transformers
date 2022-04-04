@@ -38,7 +38,7 @@ Main script:
 * main.m - the principal script which launches all calculations
   
 Additional functions: 
-* computeXBKPbest.m
+* computeXBKPbest.m - function used for computing best fitted PWL segments
 * Convert2hours.m
 * Convert2minute.m
 * distribution_transformer.m
