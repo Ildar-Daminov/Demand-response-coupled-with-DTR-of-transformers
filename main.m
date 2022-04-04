@@ -27,7 +27,7 @@ close all
 
 tic
 %% Plotting the Figure 1
-% Figure name: . Scope of the paper with regard to the literature survey.
+% Figure name: Scope of the paper with regard to the literature survey.
 
 % Figure 1 in the article [1] was ploted without using MATLAB
 
@@ -466,6 +466,7 @@ X_AEQ=0:5:120;
 % y-axis function for AEQ
 Y_AEQ=2.^((X_AEQ-98)/6);
 
+% Plot figure 
 [~]=computeXBKPbest(X_AEQ, Y_AEQ, Npwl_AEQ+1, plotoption);
 
 
@@ -516,6 +517,7 @@ legend('show')
 % Figure name: Simulation with single and multiple time sets: 
 % (a) DR flexibility power; (b) transformer temperatures.
 
+% The code is in prepation. It will be uploaded soon
 
 %% Plotting the Figure 10
 % Figure name: Validation run with “energy shifting”: 
@@ -540,8 +542,9 @@ ageing_constraint_on=0; % consider the transformer ageing 1- yes 0 - no
 % Select the "energy shifting" mode 
 SOCflex_init=0.5;  % battery initial SOC in 50 %
 SOCflex_end=0.5;  % battery initial SOC in 50 %
-% 
+ 
 
+% Do a validation run
 [PUL_optim,Pflex_max,Eflex_max,theta_h_optim,theta_0_optim]=...
     validation_run(LOADprofile,AMB,SOCflex_init,SOCflex_end,...
     ageing_constraint_on);
@@ -577,8 +580,8 @@ ageing_constraint_on=0; % consider the transformer ageing 1- yes 0 - no
 % Select the "energy shedding" mode 
 SOCflex_init=1;  % battery initial SOC in 100 %
 SOCflex_end=0;  % battery initial SOC in 0 %
-% 
 
+% Do a validation run
 [PUL_optim,Pflex_max,Eflex_max,theta_h_optim,theta_0_optim]=...
     validation_run(LOADprofile,AMB,SOCflex_init,SOCflex_end,...
     ageing_constraint_on);
@@ -614,8 +617,8 @@ ageing_constraint_on=1; % consider the transformer ageing 1- yes 0 - no
 % Select the "energy shedding" mode 
 SOCflex_init=1;  % battery initial SOC in 100 %
 SOCflex_end=0;  % battery initial SOC in 0 %
-% 
 
+% Do a validation run
 [PUL_optim,Pflex_max,Eflex_max,theta_h_optim,theta_0_optim]=...
     validation_run(LOADprofile,AMB,SOCflex_init,SOCflex_end,ageing_constraint_on);
 
@@ -658,6 +661,7 @@ t = [t1:minutes(1):t2]';
 % Create figure
 figure('WindowState','maximized','DefaultAxesFontSize',14);
 
+% Plot transformer loadings 
 subplot(2,1,1)
 plot1=plot(t,[Base_load,Base_load_reserve,Optimal_loading]);
 set(plot1(1),'DisplayName','Base load','LineStyle','-',...
@@ -672,6 +676,7 @@ ylim([0,1.6]);
 xlim([t(1441) t(192*60)])
 legend ('show')
 
+% Plot transformer temperatures 
 subplot(2,1,2)
 plot2=plot(t,[theta_h_init,theta_h,theta_h_optim]);
 set(plot2(1),'DisplayName','Base load','LineStyle','-',...
@@ -684,7 +689,7 @@ set(plot2(3),'DisplayName','Optimal loading','LineStyle','-',...
 ylabel('Hot spot temperature, °C')
 xlabel('Time')
 ylim([0,140]);
-xlim([t(1441) t(192*60)])
+xlim([t(1441) t(192*60)]) % Select one week from January 2
 
 %% Plotting the Figure 14
 % Figure name:  Obtained results for different reserve margins and DR in 
@@ -694,32 +699,54 @@ xlim([t(1441) t(192*60)])
 
 clc;clear all % clear a command window and a workspace
 
+% Transformer rating
 Nominal_rating=500; %kVA
+
+% Step of power connected 
 Power_connected_delta=25; % kW cosphi=1
+
 % energy for connected constant load 25 kW (5%)
 Energy_connected_delta=Power_connected_delta*8760; % kWh per year 
 
 %-----------------------AEQ≤1pu Ptr≤1.5pu θh≤120℃ θo≤105℃---------------
+% Load precalculated results
 load('result_AEQ_100.mat')
+
+% extract the vector of studied reserve in pu 
 reserve=result.headroom(2:end)*100;
+
+% Reserve in kW
 reserve_kW=Nominal_rating*reserve/100;
+
+% Extract flexibility metrics: power in kW and energy in kWh
 for i=1:length(reserve)
     P_flex(i,1)=result.flex_KW(i+1);
     E_flex(i,1)=result.flex_KWh(i+1);    
 end
-% load('load_amb_100_houses.mat', 'Load_agg')
+% Load aggregated load profile in W 
 load('Aggregated_load_profile_100_houses.mat')  
+
+% Convert load to kW and to hour resolution
 Load_agg_kW=Convert2hours(Load_agg,60)/1000;
+
+% Estimate the existing energy as a sum (but better as integral)
 Energy_existing=sum(Load_agg_kW); %Energy in kWh
+
+% Find a peak load 
 Load_agg_peak=max(Load_agg_kW);
 
+% Create a figure 
 figure()
+
+% Plot the flexibility in kW as a function of reserve margin
 subplot(2,2,1), plot(reserve,P_flex, 'linewidth', 2)
 xlabel('Reserve (%)')
 ylabel('Power (kW)')
 title('Power shedding, kW')
 legend(' AEQ(kW)')
 grid on
+
+% Plot power shedding share in %
 subplot(2,2,2), plot(reserve,(P_flex./...
     (Load_agg_peak+reserve/100*Nominal_rating))*100, 'linewidth', 2)
 grid on
@@ -728,18 +755,18 @@ xlabel('Reserve (%)')
 title('Power shedding/Power peak (%)')
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃')
 
+% plot values of energy shedding
 subplot(2,2,3), plot(reserve,E_flex, 'linewidth', 2)
 ylabel('Energy (kWh)') 
 title('Energy shedding(kWh)')
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃')
 xlabel('Reserve (%)')
-
 set(gca, 'YScale', 'log')
 grid on
 
+% Plot energy shedding in % 
 subplot(2,2,4) 
-
-Energy_total=Energy_existing+Energy_connected_delta.*reserve/5;
+Energy_total=Energy_existing+Energy_connected_delta.*reserve/5; %  5 = 5% of Power_connected_delta 
 plot(reserve,(E_flex./(Energy_total))*100, 'linewidth', 2)
 title('Energy shedding/Energy total(%)')
 legend('AEQ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃')
@@ -749,28 +776,51 @@ xlabel('Reserve (%)')
 hold on
 %------------------------Ptr≤ 1.5pu θh≤120℃ θo≤105℃--------------------
 clear
+% Load precalculated results for given formulation
 load('result_PUL_100.mat')
+
+% Redefine the transformer rating
 Nominal_rating=500;
-Power_connected_delta=25;
+
+% Step of power connected 
+Power_connected_delta=25; % kW
+
+% Calculate the annual energy connected 
 Energy_connected_delta=Power_connected_delta*8760; % KWh per year for 25 KW connected (5%)
 
+% Extract the reserve margins 
 reserve=result.headroom(2:end)*100;
+
+% Convert into kW
 reserve_kW=Nominal_rating*reserve/100;
+
+% Extract flexibility metrics: power in kW and energy in kWh
 for i=1:length(reserve)
     P_flex(i,1)=result.flex_KW(i+1);
     E_flex(i,1)=result.flex_KWh(i+1);    
 end
+
+% Load aggregated load profile in W 
 load('Aggregated_load_profile_100_houses.mat')
+
+% Convert to kW and transform into hour resolution
 Load_agg_kW=Convert2hours(Load_agg,60)/1000;
+
+% Estimate the energy of load
 Energy_existing=sum(Load_agg_kW); %Energy in kWh
+
+% Find a peak load 
 Load_agg_peak=max(Load_agg_kW);
 
+% Plot the flexibility in kW as a function of reserve margin
 subplot(2,2,1),hold on
 plot(reserve,P_flex, 'linewidth', 2)
 xlabel('Reserve (%)')
 ylabel('Power (kW)')
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','Ptr≤ 1.5pu +θh≤120℃+θo≤105℃')
 grid on
+
+% Plot power shedding share in %
 subplot(2,2,2), hold on
 plot(reserve,(P_flex./(Load_agg_peak+reserve/100*Nominal_rating))*100, 'linewidth', 2)
 grid on
@@ -779,6 +829,7 @@ xlabel('Reserve (%)')
 
 legend('Power shedding/Power peak (%) AEQ','Power shedding/Power peak (%) PUL')
 
+% Plot energy shedding 
 subplot(2,2,3), hold on
 plot(reserve,E_flex, 'linewidth', 2)
 ylabel('Energy (kWh)') 
@@ -788,8 +839,8 @@ xlabel('Reserve (%)')
 set(gca, 'YScale', 'log')
 grid on
 
+% Plot energy shedding in % 
 subplot(2,2,4), hold on
-
 Energy_total=Energy_existing+Energy_connected_delta.*reserve/5;
 plot(reserve,(E_flex./(Energy_total))*100, 'linewidth', 2)
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','Ptr≤ 1.5pu +θh≤120℃+θo≤105℃')
@@ -799,33 +850,58 @@ xlabel('Reserve (%)')
 
 %-------------------------% θh≤120℃ θo≤105℃------------------------------
 clear
+
+% Load precalculated results for given formulation
 load('result_temp_100.mat')
+
+% Redefine the transformer rating
 Nominal_rating=500;
-Power_connected_delta=25;
+
+% Step of power connected 
+Power_connected_delta=25; % kW
+
+% Calculate the annual energy connected 
 Energy_connected_delta=Power_connected_delta*8760; % KWh per year for 25 KW connected (5%)
 
+% Extract the reserve margins 
 reserve=result.headroom(2:end)*100;
+
+% Convert into kW
 reserve_kW=Nominal_rating*reserve/100;
+
+% Extract flexibility metrics: power in kW and energy in kWh
 for i=1:length(reserve)
     P_flex(i,1)=result.flex_KW(i+1);
     E_flex(i,1)=result.flex_KWh(i+1);    
 end
+
+% Load aggregated load profile in W 
 load('Aggregated_load_profile_100_houses.mat')
+
+% Convert to kW and transform into hour resolution
 Load_agg_kW=Convert2hours(Load_agg,60)/1000;
+
+% Estimate the energy of load
 Energy_existing=sum(Load_agg_kW); %Energy in kWh
+
+% Find a peak load 
 Load_agg_peak=max(Load_agg_kW);
 
+% Plot the flexibility in kW as a function of reserve margin
 subplot(2,2,1),hold on
 plot(reserve,P_flex, 'linewidth', 2)
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','θh≤120℃+θo≤105℃')
 
 grid on
+
+% Plot power shedding share in %
 subplot(2,2,2), hold on
 plot(reserve,(P_flex./(Load_agg_peak+reserve/100*Nominal_rating))*100, 'linewidth', 2)
 grid on
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','θh≤120℃+θo≤105℃')
 
 
+% Plot energy shedding 
 subplot(2,2,3), hold on
 plot(reserve,E_flex, 'linewidth', 2)
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','θh≤120℃+θo≤105℃')
@@ -834,8 +910,8 @@ legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','Ptr≤ 1.5pu +θh�
 set(gca, 'YScale', 'log')
 grid on
 
+% Plot energy shedding in % 
 subplot(2,2,4), hold on
-
 Energy_total=Energy_existing+Energy_connected_delta.*reserve/5;
 plot(reserve,(E_flex./(Energy_total))*100, 'linewidth', 2)
 grid on
@@ -844,24 +920,41 @@ legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','Ptr≤ 1.5pu +θh�
 
 %-----------------------AEQ≤1pu Ptr≤1.5pu θh≤98℃ θo≤105℃----------------
 clear
+% Load precalculated results for given formulation
 load('result98_AEQ_100.mat')
 Nominal_rating=500;
+
+% Step of power connected 
 Power_connected_delta=25;
+
+% Calculate the annual energy connected 
 Energy_connected_delta=Power_connected_delta*8760; % KWh per year for 25 KW connected (5%)
 
+% Extract the reserve margins 
 reserve=result.headroom(2:end)*100;
+
+% Convert into kW
 reserve_kW=Nominal_rating*reserve/100;
 
+% Extract flexibility metrics: power in kW and energy in kWh
 for i=1:length(reserve)
     P_flex(i,1)=result.flex_KW(i+1);
     E_flex(i,1)=result.flex_KWh(i+1);    
 end
 
+% Load aggregated load profile in W 
 load('Aggregated_load_profile_100_houses.mat')
+
+% Convert to kW and transform into hour resolution
 Load_agg_kW=Convert2hours(Load_agg,60)/1000;
+
+% Estimate the energy of load
 Energy_existing=sum(Load_agg_kW); %Energy in kWh
+
+% Find a peak load 
 Load_agg_peak=max(Load_agg_kW);
 
+% Plot the flexibility in kW as a function of reserve margin
 subplot(2,2,1),hold on
 plot(reserve,P_flex, 'linewidth', 2)
 xlabel('Reserve (%)')
@@ -871,17 +964,20 @@ legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃',...
     'Ptr≤1.5pu +θh≤98℃+θo≤105℃')
 
 grid on
+
+% Plot power shedding share in %
 subplot(2,2,2), hold on
 plot(reserve,(P_flex./(Load_agg_peak+reserve/100*Nominal_rating))*100,...
     'linewidth', 2)
 grid on
 ylabel('Power shedding share (%)')
 xlabel('Reserve (%)')
-
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃',...
     'Ptr≤ 1.5pu +θt≤120℃+θo≤105℃','θh≤120℃+θo≤105℃',...
     'Ptr≤1.5pu +θh≤98℃+θo≤105℃')
 
+
+% Plot energy shedding 
 subplot(2,2,3), hold on
 plot(reserve,E_flex, 'linewidth', 2)
 ylabel('Energy (kWh)') 
@@ -893,15 +989,14 @@ legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃',...
 set(gca, 'YScale', 'log')
 grid on
 
+% Plot energy shedding in % 
 subplot(2,2,4), hold on
-
 Energy_total=Energy_existing+Energy_connected_delta.*reserve/5;
 plot(reserve,(E_flex./(Energy_total))*100, 'linewidth', 2)
 grid on
 ylabel('The Energy shedding share(%)')
 xlabel('Reserve (%)')
 set(gca, 'YScale', 'log')
-
 legend('AEQ ≤1pu+Ptr≤ 1.5pu +θh≤120℃+θo≤105℃',...
     'Ptr≤ 1.5pu +θh≤120℃+θo≤105℃','θh≤120℃+θo≤105℃',...
     'Ptr≤1.5pu +θh≤98℃+θo≤105℃')
@@ -924,7 +1019,7 @@ Profile_reconstructed=PUL_optim;
 Power_shedding=(Profile_reserve-Profile_reconstructed)*500;
 
 % Create figure
-figure('WindowState','maximized','DefaultAxesFontSize',14); 
+figure('DefaultAxesFontSize',14); 
 
 % index of times when DR is applied 
 Minutes_with_DR=find(Power_shedding>1);
@@ -936,9 +1031,9 @@ DR_values=Power_shedding(Minutes_with_DR);
 h=histogram(DR_values);
 
 xlabel('Power schedding, kW')
-ylim([0 1800])
+ylim([0 1800]) % limiting the y-axis
 
-ytix = get(gca, 'YTick'); ytix(end+1)=1800;
+ytix = get(gca, 'YTick'); ytix(end+1)=1800; 
 set(gca, 'YTick',ytix, 'YTickLabel',round(ytix/60)); % convert to hours
 ylabel('DR activation, hours')
 
@@ -948,19 +1043,22 @@ ylabel('DR activation, hours')
 
 clc;clear all % clear a command window and a workspace
 
-
 %-----------------------AEQ≤1pu Ptr≤1.5pu θh≤120℃ θo≤105℃---------------
+
+% Load precalculated results 
 load('result_AEQ_100.mat')
-% load('result98_AEQ_100.mat')
-result.headroom(end)
+
+% Reconstruct the power profile with reserve 75% (without power shedding)
 Profile_reserve=PUL_init+result.headroom(end);
+
+% Reconstruct the power profile with reserve 75% (with power shedding)
 Profile_reconstructed=PUL_optim;
 
+%  Find the duration curve for Profile_reserve
 Duration=sort(Profile_reserve, 'descend');
-Duration_opt=sort(Profile_reconstructed, 'descend');
-Duration_values=[1:525600]/525600*100;
-Duration_values=Duration_values';
 
+%  Find the duration curve for Profile_reconstructed
+Duration_opt=sort(Profile_reconstructed, 'descend');
 
 % Thermal study for the case without DR
 [~,~,AEQ,theta_h,theta_0]=distribution_transformer(Profile_reserve,AMB);
@@ -968,10 +1066,18 @@ Duration_values=Duration_values';
 % Thermal study for the case with DR
 [~,~,AEQopt,theta_hopt,theta_0opt]=distribution_transformer(Profile_reconstructed,AMB);
 
+% Find the duration curve of hot spot temperature for the case without DR
 Duration=sort(theta_h, 'descend');
+
+% Find the duration curve of hot spot temperature for the case with DR
 Duration_opt=sort(theta_hopt, 'descend');
+
+% Find the duration values (x-axis)
 Duration_values=[1:525600]/525600*100;
 Duration_values=Duration_values';
+
+% Create figure
+figure('DefaultAxesFontSize',14); 
 
 % create smaller axes in top right, and plot on it
 plot(Duration_values,Duration,'linewidth',3)
@@ -982,23 +1088,31 @@ ylabel('Hot spot temperature,°C')
 xlabel ('Duration,%')
 clear
 %-----------------------Ptr≤1.5pu θh≤120℃ θo≤105℃-----------------------
+% Load precalculated results 
 load('result_PUL_100.mat')
-result.headroom(end)
-Profile_reconstructed=PUL_optim;
+
+% Reconstruct the power profile with reserve 75% (without power shedding)
 Profile_reserve=PUL_init+result.headroom(end);
 
-Duration_opt=sort(Profile_reconstructed, 'descend');
-Duration_values=[1:525600]/525600*100;
-Duration_values=Duration_values';
+% Reconstruct the power profile with reserve 75% (with power shedding)
+Profile_reconstructed=PUL_optim;
 
-% Thermql study for the case without DR
+%  Find the duration curve for Profile_reconstructed
+Duration_opt=sort(Profile_reconstructed, 'descend');
+
+% Thermal study for the case without DR
 [~,~,AEQ,theta_h,theta_0]=distribution_transformer(Profile_reserve,AMB);
 
-% Thermql study for the case with DR
+% Thermal study for the case with DR
 [~,~,AEQopt,theta_hopt,theta_0opt]=distribution_transformer(Profile_reconstructed,AMB);
 
+% Find the duration curve of hot spot temperature for the case without DR
 Duration=sort(theta_h, 'descend');
+
+% Find the duration curve of hot spot temperature for the case with DR
 Duration_opt=sort(theta_hopt, 'descend');
+
+% Find the duration values (x-axis)
 Duration_values=[1:525600]/525600*100;
 Duration_values=Duration_values';
 
@@ -1008,29 +1122,41 @@ plot(Duration_values,Duration_opt,'linewidth',3)
 
 clear
 %-----------------------θh≤120℃ θo≤105℃---------------------------------
+% Load precalculated results 
 load('result_temp_100.mat')
-result.headroom(end)
-Profile_reconstructed=PUL_optim;
+
+% Reconstruct the power profile with reserve 75% (without power shedding)
 Profile_reserve=PUL_init+result.headroom(end);
 
+% Reconstruct the power profile with reserve 75% (with power shedding)
+Profile_reconstructed=PUL_optim;
+
+% Find the duration curve of hot spot temperature for the case with DR
 Duration_opt=sort(Profile_reconstructed, 'descend');
-Duration_values=[1:525600]/525600*100;
-Duration_values=Duration_values';
+
+% Find the duration curve of initial load profile 
 Duration_init=sort(PUL_init, 'descend');
 
-% Thermql study for the case without DR
+% Thermal study for the case without DR
 [~,~,AEQ,theta_h,theta_0]=distribution_transformer(Profile_reserve,AMB);
 
-% Thermql study for the case with DR
+% Thermal study for the case with DR
 [~,~,AEQopt,theta_hopt,theta_0opt]=distribution_transformer(Profile_reconstructed,AMB);
 
+% Find the duration curve of hot spot temperature for the case without DR
 Duration=sort(theta_h, 'descend');
+
+% Find the duration curve of hot spot temperature for the case with DR
 Duration_opt=sort(theta_hopt, 'descend');
+
+% Find the duration values (x-axis)
 Duration_values=[1:525600]/525600*100;
 Duration_values=Duration_values';
 
+% Thermal study for initial load profile 
 [~,~,AEQ_init,theta_h_init,theta_0_init]=distribution_transformer(PUL_init,AMB);
 
+% Find the duration curve of hot spot temperature for the initial load profile
 Duration_init=sort(theta_h_init, 'descend');
 
 % create smaller axes in top right, and plot on it
@@ -1050,22 +1176,37 @@ legend('Not optimized: Existing θh+reserve','Optimized with AEQ ≤1pu... Ptr�
 
 clc;clear all % clear a command window and a workspace
 
-
+% Load precalculated results for 'energy shedding' mode
 load('result_AEQ_100.mat')
+
+% Extract studied reserve margins 
 reserve=result.headroom(2:end)*100;
+
+% Convert reserve margins into kW
 reserve_kW=Nominal_rating*reserve/100;
 
+% Extract flexibility metrics: power in kW and energy in kWh
 for i=1:length(reserve)
     P_flex(i,1)=result.flex_KW(i+1);
     E_flex(i,1)=result.flex_KWh(i+1);    
 end
-% load('load_amb_100_houses.mat', 'Load_agg')
+
+% Load aggregated load profile in W 
 load('Aggregated_load_profile_100_houses.mat')  
+
+% Convert Load_agg to kW and into hour resolution 
 Load_agg_kW=Convert2hours(Load_agg,60)/1000;
+
+% Calculate the energy of load as a sum (but better as integral)
 Energy_existing=sum(Load_agg_kW); %Energy in kWh
+
+% Find the peak load
 Load_agg_peak=max(Load_agg_kW);
 
+% Create the figure 
 figure()
+
+% Plot power shedding for 'energy shedding' mode 
 subplot(1,2,1), plot(reserve,P_flex, 'linewidth', 2)
 xlabel('Reserve (%)')
 ylabel('Power (kW)')
@@ -1074,6 +1215,7 @@ hold on
 
 grid on
 
+% Plot energy shedding for 'energy shedding' mode 
 subplot(1,2,2), plot(reserve,E_flex, 'linewidth', 2)
 ylabel('Energy (kWh)') 
 title('Energy shedding(kWh)')
@@ -1084,19 +1226,27 @@ grid on
 
 hold on
 
+% Load precalculated results for 'energy shifting' mode
 load('result_AEQ_50_60.mat')
+
+% Extract the studied reserve margins 
 reserve=result.headroom(2:end)*100;
+
+% Create new variables 
 P_flex=[];
 E_flex=[];
 
+% Extract flexibility metrics: power in kW and energy in kWh
 for i=1:length(reserve)
     P_flex(i,1)=result.flex_KW(i+1);
     E_flex(i,1)=result.flex_KWh(i+1);    
 end
 
+% Plot power shedding for 'energy shifting' mode 
 subplot(1,2,1)
 plot(reserve,P_flex, 'linewidth', 2)
 
+% Plot energy shedding for 'energy shifting' mode 
 subplot(1,2,2)
 plot(reserve,E_flex, 'linewidth', 2)
 legend('Energy shedding', 'Energy shifting')
@@ -1189,4 +1339,5 @@ set(legend1,...
     'FontSize',20,...
     'EdgeColor',[1 1 1]);
 
+% Elapsed time of script 
 Elapsed_time=toc;
