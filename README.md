@@ -59,13 +59,16 @@ Initial data:
 * fig_nRMSE.mat - precalulated results
 * initial_data.mat - daily profile of transfomer loading and ambient temperature 
 * LOADprofile.mat - transformer load profile 
-* result_AEQ_50_60.mat - precalulated results for energy shifting mode 
-* result_AEQ_100.mat - precalulated results for energy shedding mode (considering all constraints : ageing , current and temperatures 120°C)
+* result_AEQ_50_60.mat - precalulated results for energy shifting mode**  
+* result_AEQ_100.mat - precalulated results for energy shedding mode** (considering all constraints : ageing , current and temperatures 120°C)
 * result_PUL_100.mat - precalulated results for energy shedding mode (considering current and temperature constraints)
 * result_temp_100.mat - precalulated results for energy shedding mode (considering only temperature  constraints)
 * result98_AEQ_100.mat - precalulated results for energy shedding mode (considering ageing and design temperature 98 °C constraints)
 * time_test_result_5.mat - precalulated results of time tests (of solving  the nonlinear problem via fmincon)
 * time_test_result_linear.mat - precalulated results of time tests (of solving the linearized problem via linprog)
+
+** energy shifting mode = SOC at the beginnnig =50 % SOC at the end 50%; energy shedding mode = SOC at the beginnnig =100 % SOC at the end 0%
+
 
 ## How to cite this article 
 Ildar Daminov, Rémy Rigo-Mariani, Raphael Caire, Anton Prokhorov, Marie-Cécile Alvarez-Herault, "Demand Response coupled with Dynamic Thermal Rating for increased transformer reserve and lifetime." Energies 14.5 (2021): 1378. https://doi.org/10.3390/en14051378
