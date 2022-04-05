@@ -67,7 +67,7 @@ Initial data:
 * time_test_result_5.mat - precalulated results of time tests (of solving  the nonlinear problem via fmincon)
 * time_test_result_linear.mat - precalulated results of time tests (of solving the linearized problem via linprog)
 
-** energy shifting mode = SOC at the beginnnig =50 % & SOC at the end 50%; energy shedding mode = SOC at the beginnnig =100 % & SOC at the end 0%
+** energy shifting mode: SOC at the beginnnig =50 % & SOC at the end 50%; energy shedding mode: SOC at the beginnnig =100 % & SOC at the end 0%
 
 
 ## How to cite this article 
