@@ -1,5 +1,6 @@
-% Function that computes the best breakpoints for simple PWL
 function [Xbkp]=computeXBKPbest(X,Y, Nbkp, plotoption)
+%% Goal of this function
+% Function that computes the best breakpoints for simple PWL
 
 if nargin ==3
     plotoption=0;
@@ -70,6 +71,6 @@ if plotoption==1
    grid on
    hold on
    plot(X, Ymod, 'linewidth', 2, 'linestyle', '--' )
-end
+end % end of "if plotoption==1"
 
-end
+end % end of the function
