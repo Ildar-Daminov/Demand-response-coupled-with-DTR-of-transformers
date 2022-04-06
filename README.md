@@ -55,7 +55,7 @@ More details are given inside of each functions and script "main.m"
 Initial data:
 * Aggregated_load_profile_100_houses.mat - the load profile in W of 100 houses 
 * all_intervals.mat - precalulated results 
-* Ambient_temperature_Grenoble.mat - annual ambient temperature in Grenoble, France 
+* Ambient_temperature_Grenoble.mat - annual ambient temperature in Grenoble, France (source: [MeteoBlue](https://www.meteoblue.com/fr/historyplus)) 
 * fig_nRMSE.mat - precalulated results
 * initial_data.mat - daily profile of transfomer loading and ambient temperature 
 * LOADprofile.mat - transformer load profile 
