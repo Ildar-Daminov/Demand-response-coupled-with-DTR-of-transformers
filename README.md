@@ -1,5 +1,3 @@
-UPD (20 april 2022): This version of code allows to reproduce the majority of article results. However, some sections are still under verifications,testing and adjustments (commenting, documenting etc). The final version will be available soon. 
-
 # Demand Response Coupled with Dynamic Thermal Rating for Increased Transformer Reserve and Lifetime
 <img align="left" alt="Coding" width="275" src="https://www.i3upgrade.eu/files/2021/07/logo-journal-energies.png">
 
@@ -72,3 +70,11 @@ Initial data:
 
 ## How to cite this article 
 Ildar Daminov, Rémy Rigo-Mariani, Raphael Caire, Anton Prokhorov, Marie-Cécile Alvarez-Herault, "Demand Response coupled with Dynamic Thermal Rating for increased transformer reserve and lifetime." Energies 14.5 (2021): 1378. https://doi.org/10.3390/en14051378
+
+## More about DTR of power transformers 
+<img align="left" alt="Coding" width="250" src="https://media-exp1.licdn.com/dms/image/C4E22AQFVhDYtt2te_w/feedshare-shrink_1280/0/1652876006660?e=1668038400&v=beta&t=eBRX9SszlDbTvlrkZOmlU_YBncHo2tHmdpjqxRxikbA">This paper is a part of PhD thesis "Dynamic Thermal Rating of Power Transformers: Modelling, Concepts, and Application case". The full text of PhD thesis is available on [Researchgate](https://www.researchgate.net/publication/363383515_Dynamic_Thermal_Rating_of_Power_Transformers_Modelling_Concepts_and_Application_case) or [HAL theses](https://tel.archives-ouvertes.fr/tel-03772184). Other GitHub repositories on DTR of power transformers:
+* Article: Assessment of dynamic transformer rating, considering current and temperature limitations. [GitHub repository](https://github.com/Ildar-Daminov/Assessment_Dynamic_Thermal_Rating_of_Transformers)
+* Article: Energy limit of oil-immersed transformers: A concept and its application in different climate conditions. [GitHub repository](https://github.com/Ildar-Daminov/Energy-limit-of-power-transformer)
+* Conference paper: Optimal ageing limit of oil-immersed transformers in flexible power systems [GitHub repository](https://github.com/Ildar-Daminov/MATLAB-code-for-CIRED-paper)
+* Conference paper: Application of dynamic transformer ratings to increase the reserve of primary substations for new load interconnection. [GitHub repository](https://github.com/Ildar-Daminov/Reserve-capacity-of-transformer-for-load-connection)
+* Conference paper: Receding horizon algorithm for dynamic transformer rating and its application for real-time economic dispatch. [GitHub repository](https://github.com/Ildar-Daminov/Receding-horizon-algorithm-for-dynamic-transformer-rating)
