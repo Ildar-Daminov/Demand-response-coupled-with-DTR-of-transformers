@@ -1,3 +1,6 @@
+[![DOI](https://zenodo.org/badge/416074147.svg)](https://zenodo.org/doi/10.5281/zenodo.12509998)
+[![DOI:10.3390/en14051378](http://img.shields.io/badge/DOI-10.3390/en14051378-B31B1B.svg)](https://doi.org/10.3390/en14051378)
+
 # Demand Response Coupled with Dynamic Thermal Rating for Increased Transformer Reserve and Lifetime
 <img align="left" alt="Coding" width="275" src="https://www.i3upgrade.eu/files/2021/07/logo-journal-energies.png">
 
